@@ -148,6 +148,7 @@ documentation for each plugin for configurable attributes.
 * `virt` (see [collectd::plugin::virt](#class-collectdpluginvirt) below)
 * `lvm` (see [collectd::plugin::lvm](#class-collectdpluginlvm) below)
 * `mcelog` (see [collectd::plugin::mcelog](#class-collectdpluginmcelog) below)
+* `md` (see [collectd::plugin::md](#class-collectdpluginmd) below)
 * `memcached`(see [collectd::plugin::memcached](#class-collectdpluginmemcached)
   below )
 * `memory`(see [collectd::plugin::memory](#class-collectdpluginmemory) below )
@@ -1037,6 +1038,15 @@ class { 'collectd::plugin::virt':
 
 ```puppet
 class { 'collectd::plugin::lvm': }
+```
+
+#### Class: `collectd::plugin::md`
+
+```puppet
+class { 'collectd::plugin::md':
+  mds            => ['/dev/md0', '/dev/md1'],
+  ignoreselected => false,
+}
 ```
 
 #### Class: `collectd::plugin::memcached`
