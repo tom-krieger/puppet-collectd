@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'collectd::plugin::df', type: :class do
   on_supported_os(baseline_os_hash).each do |os, facts|
-    context "on #{os} " do
+    context "on #{os}" do
       let :facts do
         facts
       end
@@ -10,8 +12,7 @@ describe 'collectd::plugin::df', type: :class do
       options = os_specific_options(facts)
       context 'simple case' do
         let :params do
-          {
-          }
+          {}
         end
 
         it "Will create #{options[:plugin_conf_dir]}/10-df.conf" do
@@ -34,7 +35,7 @@ describe 'collectd::plugin::df', type: :class do
           is_expected.to contain_file('df.load').with(
             ensure: 'present',
             path: "#{options[:plugin_conf_dir]}/10-df.conf",
-            content: %r{  Device \"proc\"\n  Device \"sysfs\"\n}
+            content: %r{  Device "proc"\n  Device "sysfs"\n}
           )
         end
       end

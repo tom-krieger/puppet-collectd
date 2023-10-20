@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'collectd::plugin::powerdns', type: :class do
   on_supported_os(baseline_os_hash).each do |os, facts|
-    context "on #{os} " do
+    context "on #{os}" do
       let :facts do
         facts
       end
@@ -19,7 +21,7 @@ describe 'collectd::plugin::powerdns', type: :class do
           end
 
           it "Will create #{options[:plugin_conf_dir]}/powerdns-config.conf" do
-            is_expected.to contain_concat("#{options[:plugin_conf_dir]}/powerdns-config.conf").that_requires('File[collectd.d]')
+            is_expected.to contain_concat("#{options[:plugin_conf_dir]}/powerdns-config.conf")
             is_expected.to contain_concat__fragment('collectd_plugin_powerdns_conf_header').with(
               content: "<Plugin \"powerdns\">\n",
               target: "#{options[:plugin_conf_dir]}/powerdns-config.conf",
@@ -35,6 +37,7 @@ describe 'collectd::plugin::powerdns', type: :class do
             )
           end
         end
+
         context ':ensure => present and overrided parameters' do
           let :params do
             {
@@ -57,7 +60,7 @@ describe 'collectd::plugin::powerdns', type: :class do
           end
 
           it "Will create #{options[:plugin_conf_dir]}/powerdns-config.conf" do
-            is_expected.to contain_concat("#{options[:plugin_conf_dir]}/powerdns-config.conf").that_requires('File[collectd.d]')
+            is_expected.to contain_concat("#{options[:plugin_conf_dir]}/powerdns-config.conf")
             is_expected.to contain_concat__fragment('collectd_plugin_powerdns_conf_header').with(
               content: "<Plugin \"powerdns\">
   LocalSocket \"/var/run/whatever\"

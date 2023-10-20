@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'collectd::plugin::rabbitmq', type: :class do
   on_supported_os(baseline_os_hash).each do |os, facts|
-    context "on #{os} " do
+    context "on #{os}" do
       let :facts do
         facts
       end
@@ -24,7 +26,7 @@ describe 'collectd::plugin::rabbitmq', type: :class do
           end
 
           case [facts[:os]['family'], facts[:os]['release']['major']]
-          when %w[RedHat 8]
+          when %w[RedHat 8], %w[Ubuntu 20.04]
             it { is_expected.to raise_error(%r{does not support Python 3}) }
           else
             it 'import collectd_rabbitmq.collectd_plugin in python-config' do
@@ -67,7 +69,7 @@ describe 'collectd::plugin::rabbitmq', type: :class do
           end
 
           case [facts[:os]['family'], facts[:os]['release']['major']]
-          when %w[RedHat 8]
+          when %w[RedHat 8], %w[Ubuntu 20.04]
             it { is_expected.to raise_error(%r{does not support Python 3}) }
           else
             it 'override custom TypesDB' do
@@ -82,7 +84,7 @@ describe 'collectd::plugin::rabbitmq', type: :class do
           end
 
           case [facts[:os]['family'], facts[:os]['release']['major']]
-          when %w[RedHat 8]
+          when %w[RedHat 8], %w[Ubuntu 20.04]
             it { is_expected.to raise_error(%r{does not support Python 3}) }
           else
             it 'override Username to foo in python-config' do
@@ -97,7 +99,7 @@ describe 'collectd::plugin::rabbitmq', type: :class do
           end
 
           case [facts[:os]['family'], facts[:os]['release']['major']]
-          when %w[RedHat 8]
+          when %w[RedHat 8], %w[Ubuntu 20.04]
             it { is_expected.to raise_error(%r{does not support Python 3}) }
           else
             it 'override Username to foo in python-config' do
@@ -112,7 +114,7 @@ describe 'collectd::plugin::rabbitmq', type: :class do
           end
 
           case [facts[:os]['family'], facts[:os]['release']['major']]
-          when %w[RedHat 8]
+          when %w[RedHat 8], %w[Ubuntu 20.04]
             it { is_expected.to raise_error(%r{does not support Python 3}) }
           else
             it 'override Username to foo in python-config' do
@@ -128,7 +130,7 @@ describe 'collectd::plugin::rabbitmq', type: :class do
         end
 
         case [facts[:os]['family'], facts[:os]['release']['major']]
-        when %w[RedHat 8]
+        when %w[RedHat 8], %w[Ubuntu 20.04]
           it { is_expected.to raise_error(%r{does not support Python 3}) }
         else
           it 'Will remove python-config' do
@@ -155,7 +157,7 @@ describe 'collectd::plugin::rabbitmq', type: :class do
                     end
 
                     case [facts[:os]['family'], facts[:os]['release']['major']]
-                    when %w[RedHat 8]
+                    when %w[RedHat 8], %w[Ubuntu 20.04]
                       it { is_expected.to raise_error(%r{does not support Python 3}) }
                     else
                       it do
@@ -165,13 +167,13 @@ describe 'collectd::plugin::rabbitmq', type: :class do
                         )
                       end
                     end
-                  end # packagename
-                end # ensure set
-              end # provider
-            end # present absent
-          end # context set
-        end # 'true', true
-      end # describe with manage_package
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
     end
   end
 end

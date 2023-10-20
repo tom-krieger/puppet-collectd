@@ -4,23 +4,23 @@
 #
 #  Configures iscdhcp metrics collection. Optionally installs the required plugin packages
 #
-# @param ensure Optional[String] Passed to package and collectd::plugin resources (both). Default: present
-# @param manage_package Optional[Boolean] Toggles installation of plugin. Default: undef
-# @param package_name Optional[String] Name of plugin package to install. Default: collectd-iscdhcp
-# @param package_provider Optional[String] Passed to package resource. Default: pip
-# @param provider_proxy Optional[String] Proxy for provider. Default: undef
+# @param ensure Passed to package and collectd::plugin resources (both)
+# @param manage_package Toggles installation of plugin
+# @param package_name Name of plugin package to install
+# @param package_provider Passed to package resource
+# @param provider_proxy Proxy for provider
 class collectd::plugin::iscdhcp (
-  Optional[String] $ensure           = 'present',
-  Optional[Boolean] $manage_package  = undef,
-  Optional[String] $package_name     = 'collectd-iscdhcp',
-  Optional[String] $package_provider = undef,
-  Optional[String] $provider_proxy   = undef,
+  Enum['present', 'absent'] $ensure     = 'present',
+  Optional[Boolean] $manage_package     = undef,
+  String[1] $package_name               = 'collectd-iscdhcp',
+  Optional[String[1]] $package_provider = undef,
+  Optional[String[1]] $provider_proxy   = undef,
 ) {
   include collectd
 
   $_manage_package = pick($manage_package, $collectd::manage_package)
 
-  if $facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '8' {
+  if ($facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '8') or ($facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '20.04') {
     $_python_pip_package = 'python3-pip'
     if $package_provider =~ Undef {
       $_package_provider = 'pip3'

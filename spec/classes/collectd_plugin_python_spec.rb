@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'collectd::plugin::python', type: :class do
   on_supported_os(baseline_os_hash).each do |os, facts|
-    context "on #{os} " do
+    context "on #{os}" do
       let :facts do
         facts
       end
@@ -24,8 +26,7 @@ describe 'collectd::plugin::python', type: :class do
           end
 
           it "Will create #{options[:plugin_conf_dir]}/python-config.conf" do
-            is_expected.to contain_concat("#{options[:plugin_conf_dir]}/python-config.conf").
-              that_requires('File[collectd.d]')
+            is_expected.to contain_concat("#{options[:plugin_conf_dir]}/python-config.conf")
             is_expected.to contain_concat__fragment('collectd_plugin_python_conf_header').with(
               content: %r{<Plugin "python">},
               target: "#{options[:plugin_conf_dir]}/python-config.conf",
@@ -62,6 +63,7 @@ describe 'collectd::plugin::python', type: :class do
             )
             is_expected.to contain_file('/data/')
           end
+
           it 'will set two modulepath in the module conf' do
             is_expected.to contain_concat__fragment('collectd_plugin_python_conf_header').with(
               content: %r{ModulePath "/tmp/"},
@@ -177,12 +179,14 @@ describe 'collectd::plugin::python', type: :class do
               target: "#{options[:plugin_conf_dir]}/python-config.conf"
             )
           end
+
           it 'open instance One of module' do
             is_expected.to contain_concat__fragment('collectd_plugin_python_conf_One_config').with(
               content: %r{<Module "funky">},
               target: "#{options[:plugin_conf_dir]}/python-config.conf"
             )
           end
+
           it 'open instance Two of module' do
             is_expected.to contain_concat__fragment('collectd_plugin_python_conf_Two_config').with(
               content: %r{<Module "funky">},
@@ -190,24 +194,27 @@ describe 'collectd::plugin::python', type: :class do
             )
           end
 
-          it 'configure  instance One of module' do
+          it 'configure instance One of module' do
             is_expected.to contain_concat__fragment('collectd_plugin_python_conf_One_config').with(
               content: %r{Verbose true},
               target: "#{options[:plugin_conf_dir]}/python-config.conf"
             )
           end
-          it 'configure  instance Two of module' do
+
+          it 'configure instance Two of module' do
             is_expected.to contain_concat__fragment('collectd_plugin_python_conf_Two_config').with(
               content: %r{Junk "morehelp"},
               target: "#{options[:plugin_conf_dir]}/python-config.conf"
             )
           end
+
           it 'close funky module instance One' do
             is_expected.to contain_concat__fragment('collectd_plugin_python_conf_One_config').with(
               content: %r{</Module>},
               target: "#{options[:plugin_conf_dir]}/python-config.conf"
             )
           end
+
           it 'close funky module instance Two' do
             is_expected.to contain_concat__fragment('collectd_plugin_python_conf_Two_config').with(
               content: %r{</Module>},
@@ -262,8 +269,7 @@ describe 'collectd::plugin::python', type: :class do
           end
 
           it "Will create #{options[:plugin_conf_dir]}/custom-location-config.conf" do
-            is_expected.to contain_concat("#{options[:plugin_conf_dir]}/custom-location-config.conf").
-              that_requires('File[collectd.d]')
+            is_expected.to contain_concat("#{options[:plugin_conf_dir]}/custom-location-config.conf")
             is_expected.to contain_concat__fragment('collectd_plugin_python_conf_header').with(
               content: %r{<Plugin "python">},
               target: "#{options[:plugin_conf_dir]}/custom-location-config.conf",

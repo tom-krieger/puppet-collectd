@@ -13,6 +13,9 @@ define collectd::plugin::write_graphite::carbon (
   Boolean $separateinstances = false,
   Boolean $logsenderrors     = true,
   Integer $reconnectinterval = 0,
+  Boolean $reversehost       = false,
+  Boolean $preserveseparator   = false,
+  Boolean $dropduplicatefields = false,
 ) {
   include collectd
   include collectd::plugin::write_graphite

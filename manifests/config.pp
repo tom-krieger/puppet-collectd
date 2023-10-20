@@ -40,5 +40,18 @@ class collectd::config inherits collectd {
     recurse => $collectd::recurse,
   }
 
-  File['collectd.d'] -> Concat <| tag == 'collectd' |>
+  if $_conf_content {
+    concat { 'collectd_typesdb':
+      ensure => present,
+      mode   => $collectd::config_mode,
+      owner  => $collectd::config_group,
+      path   => "${collectd::collectd_dir}/typesdb.conf",
+    }
+
+    concat::fragment { 'collectd_typesdb_header':
+      order   => '10',
+      content => template('collectd/typesdb.conf.erb'),
+      target  => 'collectd_typesdb',
+    }
+  }
 }

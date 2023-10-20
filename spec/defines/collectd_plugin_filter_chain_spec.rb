@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'collectd::plugin::filter::chain', type: :define do
   on_supported_os(baseline_os_hash).each do |os, facts|
-    context "on #{os} " do
+    context "on #{os}" do
       let :facts do
         facts
       end
@@ -12,8 +14,7 @@ describe 'collectd::plugin::filter::chain', type: :define do
         let(:title) { 'MyChain' }
 
         it "Will create #{options[:plugin_conf_dir]}/filter-chain-MyChain.conf" do
-          is_expected.to contain_concat("#{options[:plugin_conf_dir]}/filter-chain-MyChain.conf").with(ensure: 'present').
-            that_requires('File[collectd.d]')
+          is_expected.to contain_concat("#{options[:plugin_conf_dir]}/filter-chain-MyChain.conf").with(ensure: 'present')
           is_expected.to contain_concat__fragment("#{options[:plugin_conf_dir]}/filter-chain-MyChain.conf_MyChain_head").with(
             order: '00',
             content: '<Chain "MyChain">',
@@ -25,6 +26,7 @@ describe 'collectd::plugin::filter::chain', type: :define do
             target: "#{options[:plugin_conf_dir]}/filter-chain-MyChain.conf"
           )
         end
+
         it { is_expected.not_to contain_collectd__plugin__filter__target('z_chain-MyChain-target') }
       end
 

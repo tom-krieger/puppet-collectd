@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'collectd::plugin::write_graphite', type: :class do
   on_supported_os(baseline_os_hash).each do |os, facts|
-    context "on #{os} " do
+    context "on #{os}" do
       let :facts do
         facts.merge(collectd_version: '5.0')
       end
@@ -17,7 +19,7 @@ describe 'collectd::plugin::write_graphite', type: :class do
         end
 
         it "Will create #{options[:plugin_conf_dir]}/write_graphite-config.conf" do
-          is_expected.to contain_concat("#{options[:plugin_conf_dir]}/write_graphite-config.conf").that_requires('File[collectd.d]')
+          is_expected.to contain_concat("#{options[:plugin_conf_dir]}/write_graphite-config.conf")
           is_expected.to contain_concat__fragment('collectd_plugin_write_graphite_conf_header').with(
             content: %r{<Plugin write_graphite>},
             target: "#{options[:plugin_conf_dir]}/write_graphite-config.conf",

@@ -1,11 +1,13 @@
 # Collectd module for Puppet
 
-[![Build Status](https://travis-ci.org/voxpupuli/puppet-collectd.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-collectd)
-[![Code Coverage](https://coveralls.io/repos/github/voxpupuli/puppet-collectd/badge.svg?branch=master)](https://coveralls.io/github/voxpupuli/puppet-collectd)
+[![Build Status](https://github.com/voxpupuli/puppet-collectd/workflows/CI/badge.svg)](https://github.com/voxpupuli/puppet-collectd/actions?query=workflow%3ACI)
+[![Release](https://github.com/voxpupuli/puppet-collectd/actions/workflows/release.yml/badge.svg)](https://github.com/voxpupuli/puppet-collectd/actions/workflows/release.yml)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/collectd.svg)](https://forge.puppetlabs.com/puppet/collectd)
 [![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/collectd.svg)](https://forge.puppetlabs.com/puppet/collectd)
 [![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/collectd.svg)](https://forge.puppetlabs.com/puppet/collectd)
 [![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/collectd.svg)](https://forge.puppetlabs.com/puppet/collectd)
+[![puppetmodule.info docs](http://www.puppetmodule.info/images/badge.png)](http://www.puppetmodule.info/m/puppet-collectd)
+[![Apache-2.0 License](https://img.shields.io/github/license/voxpupuli/puppet-collectd.svg)](LICENSE)
 
 ## Description
 
@@ -2008,17 +2010,22 @@ backend should have unique title:
 
 ```puppet
 collectd::plugin::write_graphite::carbon {'secondary_graphite':
-  graphitehost      => 'graphite.example.org',
-  graphiteport      => 2004,
-  graphiteprefix    => '',
-  protocol          => 'udp',
-  escapecharacter   => '_',
-  alwaysappendds    => true,
-  storerates        => true,
-  separateinstances => false,
-  logsenderrors     => true
+  graphitehost        => 'graphite.example.org',
+  graphiteport        => 2004,
+  graphiteprefix      => '',
+  protocol            => 'udp',
+  escapecharacter     => '_',
+  alwaysappendds      => true,
+  storerates          => true,
+  separateinstances   => false,
+  logsenderrors       => true
+  preserveseparator   => false,
+  dropduplicatefields => false,
 }
 ```
+
+The `preserveseparator` and `dropduplicatefields` fields are supported as of
+collectd version >= 5.7.
 
 #### Class: `collectd::plugin::write_http`
 
@@ -2075,8 +2082,11 @@ class { 'collectd::plugin::write_log':
 
 #### Class: `collectd::plugin::write_prometheus`
 
+* The "host" option requires collectd 5.9 or later and will be ignored otherwise.
+
 ```puppet
 class { 'collectd::plugin::write_prometheus':
+  host => 'localhost',
   port => '9103',
 }
 ```

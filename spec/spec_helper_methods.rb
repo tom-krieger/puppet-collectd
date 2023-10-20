@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def os_specific_options(facts)
   case facts[:os]['family']
   when 'Gentoo'
@@ -13,32 +15,6 @@ def os_specific_options(facts)
   else
     { package: 'collectd', service: 'collectd', plugin_conf_dir: '/etc/collectd' }
   end
-end
-
-def all_supported_os_hash
-  {
-    supported_os: [
-      {
-        'operatingsystem' => 'Debian',
-        'operatingsystemrelease' => ['8']
-      },
-      {
-        'operatingsystem' => 'CentOS',
-        'operatingsystemrelease' => %w[7 8]
-      },
-      {
-        'operatingsystem' => 'Ubuntu',
-        'operatingsystemrelease' => %w[16.04 18.04]
-      },
-      {
-        'operatingsystem' => 'FreeBSD',
-        'operatingsystemrelease' => %w[11 12]
-      },
-      {
-        'operatingsystem' => 'Archlinux'
-      }
-    ]
-  }
 end
 
 def baseline_os_hash
